@@ -1,14 +1,16 @@
 package com.edutech.progressive.entity;
 
-public class Teacher {
+public class Teacher implements Comparable<Teacher>{
     private int teacherId;
     private String fullName;
     private String subject;
     private String contactNumber;
     private String email;
     private int yearsOfExperience;
+    
     public Teacher() {
     }
+
     public Teacher(int teacherId, String fullName, String subject, String contactNumber, String email,
             int yearsOfExperience) {
         this.teacherId = teacherId;
@@ -18,6 +20,7 @@ public class Teacher {
         this.email = email;
         this.yearsOfExperience = yearsOfExperience;
     }
+    
     public int getTeacherId() {
         return teacherId;
     }
@@ -42,19 +45,30 @@ public class Teacher {
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
+
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }
+
     public int getYearsOfExperience() {
         return yearsOfExperience;
     }
+
     public void setYearsOfExperience(int yearsOfExperience) {
         this.yearsOfExperience = yearsOfExperience;
     }
 
+    @Override
+    public int compareTo(Teacher otherTeacher) {
+        return Integer.compare(this.getYearsOfExperience(), otherTeacher.getYearsOfExperience());    
+    }
     
-
 }
+
+
+

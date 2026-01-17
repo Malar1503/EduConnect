@@ -1,25 +1,35 @@
 package com.edutech.progressive.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.edutech.progressive.entity.Teacher;
+import com.edutech.progressive.service.TeacherService;
 
-public class TeacherServiceImplArraylist {
+public class TeacherServiceImplArraylist implements TeacherService {
 
-    public List<Teacher> getAllTeachers(){
-        return List.of();
+    private static List<Teacher> teacherList = new ArrayList<>();
+
+    @Override
+    public List<Teacher> getAllTeachers() {
+        return teacherList;
     }
 
+    @Override
     public Integer addTeacher(Teacher teacher) {
-        return -1;
+        teacherList.add(teacher);
+        return teacherList.size();  
     }
 
+    @Override
     public List<Teacher> getTeacherSortedByExperience() {
-        return List.of();
+        Collections.sort(teacherList);
+        return teacherList;
     }
 
-    public void emptyArrayList() {
-
+    public void emptyArrayList(){
+        teacherList.clear();
     }
 
 }

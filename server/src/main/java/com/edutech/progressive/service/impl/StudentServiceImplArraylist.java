@@ -1,25 +1,35 @@
 package com.edutech.progressive.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.edutech.progressive.entity.Student;
+import com.edutech.progressive.service.StudentService;
 
-public class StudentServiceImplArraylist {
+public class StudentServiceImplArraylist implements StudentService {
 
+    private static List<Student> studentList = new ArrayList<>();
+
+    @Override
     public List<Student> getAllStudents() {
-        return List.of();
+        return studentList;
     }
 
+    @Override
     public Integer addStudent(Student student) {
-        return -1;
+        studentList.add(student);
+        return studentList.size();  
     }
 
+    @Override
     public List<Student> getAllStudentSortedByName() {
-        return List.of();
+        Collections.sort(studentList);
+        return studentList;    
     }
 
-    public void emptyArrayList() {
-
+    public void emptyArrayList(){
+        studentList.clear();
     }
 
 }
