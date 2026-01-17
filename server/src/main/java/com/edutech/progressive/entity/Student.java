@@ -6,17 +6,17 @@ public class Student {
     private int studentId;
     private String fullName;
     private Date dateOfBirth;
-    private String contanctNumber;
+    private String contactNumber;
     private String email;
     private String address;
     public Student() {
     }
-    public Student(int studentId, String fullName, Date dateOfBirth, String contanctNumber, String email,
+    public Student(int studentId, String fullName, Date dateOfBirth, String contactNumber, String email,
             String address) {
         this.studentId = studentId;
         this.fullName = fullName;
         this.dateOfBirth = dateOfBirth;
-        this.contanctNumber = contanctNumber;
+        this.contactNumber = contactNumber;
         this.email = email;
         this.address = address;
     }
@@ -38,11 +38,11 @@ public class Student {
     public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
-    public String getContanctNumber() {
-        return contanctNumber;
+    public String getContactNumber() {
+        return contactNumber;
     }
-    public void setContanctNumber(String contanctNumber) {
-        this.contanctNumber = contanctNumber;
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
     public String getEmail() {
         return email;
@@ -56,6 +56,8 @@ public class Student {
     public void setAddress(String address) {
         this.address = address;
     }
+    
+    
     
     
 }
