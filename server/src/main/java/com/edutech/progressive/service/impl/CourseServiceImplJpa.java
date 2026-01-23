@@ -3,16 +3,31 @@ package com.edutech.progressive.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.edutech.progressive.entity.Course;
+import com.edutech.progressive.repository.CourseRepository;
 import com.edutech.progressive.service.CourseService;
 
+@Service
 public class CourseServiceImplJpa implements CourseService {
+
+    private CourseRepository courseRepository;
+
+    @Autowired
+
+    public CourseServiceImplJpa(CourseRepository courseRepository) {
+
+        this.courseRepository = courseRepository;
+
+    }
 
     @Override
 
     public List<Course> getAllCourses() throws Exception {
 
-        return new ArrayList<>();
+        return courseRepository.findAll();
 
     }
 
@@ -20,7 +35,7 @@ public class CourseServiceImplJpa implements CourseService {
 
     public Course getCourseById(int courseId) throws Exception {
 
-        return null;
+        return courseRepository.findByCourseId(courseId);
 
     }
 
@@ -28,7 +43,7 @@ public class CourseServiceImplJpa implements CourseService {
 
     public Integer addCourse(Course course) throws Exception {
 
-        return -1;
+        return courseRepository.save(course).getCourseId();
 
     }
 
@@ -36,17 +51,21 @@ public class CourseServiceImplJpa implements CourseService {
 
     public void updateCourse(Course course) throws Exception {
 
+        courseRepository.save(course);
+
     }
 
     @Override
 
     public void deleteCourse(int courseId) throws Exception {
 
+        courseRepository.deleteById(courseId);
+
     }
 
     public List<Course> getAllCourseByTeacherId(int teacherId) {
 
-        return null;
+        return courseRepository.findAllByTeacherId(teacherId);
 
     }
 
