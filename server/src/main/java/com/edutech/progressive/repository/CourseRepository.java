@@ -13,15 +13,16 @@ import org.springframework.stereotype.Repository;
 import com.edutech.progressive.entity.Course;
 
 @Repository
+
 public interface CourseRepository extends JpaRepository<Course, Integer> {
 
-    @Query("SELECT c FROM Course c WHERE c.courseId = :courseId")
+    Course findByCourseId(int clinicId);
 
-    public Course findByCourseId(@Param("courseId") int courseId);
+    Course findByCourseName(String courseName);
 
-    @Query("SELECT c FROM Course c WHERE c.teacher.teacherId = :teacherId")
+    @Query("Select c FROM Course c WHERE c.teacher.teacherId = :teacherId")
 
-    public List<Course> findAllByTeacherId(@Param("teacherId") int teacherId);
+    List<Course> findAllByTeacherId(int teacherId);
 
     @Transactional
 
@@ -29,6 +30,6 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
     @Query("DELETE FROM Course c WHERE c.teacher.teacherId = :teacherId")
 
-    public void deleteByTeacherId(@Param("teacherId") int teacherId);
+    void deleteByTeacherId(int teacherId);
 
 }

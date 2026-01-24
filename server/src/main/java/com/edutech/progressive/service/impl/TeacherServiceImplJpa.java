@@ -6,11 +6,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.edutech.progressive.dto.TeacherDTO;
 import com.edutech.progressive.entity.Teacher;
+import com.edutech.progressive.exception.TeacherAlreadyExistsException;
 import com.edutech.progressive.repository.TeacherRepository;
 import com.edutech.progressive.service.TeacherService;
 
 @Service
+
 public class TeacherServiceImplJpa implements TeacherService {
 
     private TeacherRepository teacherRepository;
@@ -31,13 +34,18 @@ public class TeacherServiceImplJpa implements TeacherService {
 
     }
 
-    public TeacherServiceImplJpa() {
-
-    }
-
     @Override
 
     public Integer addTeacher(Teacher teacher) throws Exception {
+
+        Teacher existingTeacher = teacherRepository.findByEmail(teacher.getEmail());
+
+        if (existingTeacher != null) {
+
+            throw new TeacherAlreadyExistsException(
+                    "Teacher with this email already exists, Email: " + teacher.getEmail());
+
+        }
 
         return teacherRepository.save(teacher).getTeacherId();
 
@@ -47,19 +55,31 @@ public class TeacherServiceImplJpa implements TeacherService {
 
     public List<Teacher> getTeacherSortedByExperience() throws Exception {
 
-        List<Teacher> teachers = teacherRepository.findAll();
+        List<Teacher> sortedTeachers = teacherRepository.findAll();
 
-        Collections.sort(teachers);
+        Collections.sort(sortedTeachers);
 
-        return teachers;
+        return sortedTeachers;
 
     }
 
+    @Override
+
     public void updateTeacher(Teacher teacher) throws Exception {
+
+        Teacher existingTeacher = teacherRepository.findByEmail(teacher.getEmail());
+
+        if (existingTeacher != null) {
+
+            throw new TeacherAlreadyExistsException("Teacher with this email already exists, Email: " + teacher.getEmail());
+
+        }
 
         teacherRepository.save(teacher);
 
     }
+
+    @Override
 
     public void deleteTeacher(int teacherId) throws Exception {
 
@@ -67,9 +87,15 @@ public class TeacherServiceImplJpa implements TeacherService {
 
     }
 
+    @Override
+
     public Teacher getTeacherById(int teacherId) throws Exception {
 
         return teacherRepository.findByTeacherId(teacherId);
+
+    }
+
+    public void modifyTeacherDetails(TeacherDTO teacherDTO) {
 
     }
 

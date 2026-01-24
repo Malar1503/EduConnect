@@ -8,4 +8,5 @@ import com.edutech.progressive.entity.Student;
 @Repository
 public interface StudentRepository extends JpaRepository<Student,Integer> {
     Student findByStudentId(int studentId);
+    Student findByEmail(String email);
 }

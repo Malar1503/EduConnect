@@ -17,9 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
+
 @RequestMapping("/student")
+
 public class StudentController {
 
     @Autowired
@@ -54,6 +57,10 @@ public class StudentController {
 
             return new ResponseEntity<>(studentServiceImplJpa.getStudentById(studentId), HttpStatus.OK);
 
+        } catch (NoSuchElementException e) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
         } catch (Exception e) {
 
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,7 +77,9 @@ public class StudentController {
 
             return new ResponseEntity<>(studentServiceImplJpa.addStudent(student), HttpStatus.CREATED);
 
-            // } catch (RuntimeException e) {
+        } catch (IllegalArgumentException e) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         } catch (Exception e) {
 
@@ -81,6 +90,7 @@ public class StudentController {
     }
 
     @PutMapping("/{studentId}")
+
     public ResponseEntity<Void> updateStudent(@PathVariable int studentId, @RequestBody Student student) {
 
         try {
@@ -90,6 +100,10 @@ public class StudentController {
             studentServiceImplJpa.updateStudent(student);
 
             return new ResponseEntity<>(HttpStatus.OK);
+
+        } catch (IllegalArgumentException e) {
+
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         } catch (Exception e) {
 
@@ -106,8 +120,11 @@ public class StudentController {
         try {
 
             studentServiceImplJpa.deleteStudent(studentId);
-
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        } catch (NoSuchElementException e) {
+
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
         } catch (Exception e) {
 

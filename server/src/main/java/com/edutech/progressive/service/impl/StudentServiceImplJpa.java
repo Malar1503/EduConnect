@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import com.edutech.progressive.dto.StudentDTO;
 import com.edutech.progressive.entity.Student;
+import com.edutech.progressive.exception.StudentAlreadyExistsException;
 import com.edutech.progressive.repository.StudentRepository;
 import com.edutech.progressive.service.StudentService;
 
 @Service
+
 public class StudentServiceImplJpa implements StudentService {
 
     private StudentRepository studentRepository;
@@ -37,6 +39,15 @@ public class StudentServiceImplJpa implements StudentService {
 
     public Integer addStudent(Student student) throws Exception {
 
+        Student existingStudent = studentRepository.findByEmail(student.getEmail());
+
+        if (existingStudent != null) {
+
+            throw new StudentAlreadyExistsException(
+                    "Student with this email already exists, Email: " + student.getEmail());
+
+        }
+
         return studentRepository.save(student).getStudentId();
 
     }
@@ -45,25 +56,40 @@ public class StudentServiceImplJpa implements StudentService {
 
     public List<Student> getAllStudentSortedByName() throws Exception {
 
-        List<Student> students = studentRepository.findAll();
+        List<Student> studentList = studentRepository.findAll();
 
-        Collections.sort(students);
+        Collections.sort(studentList);
 
-        return students;
+        return studentList;
 
     }
 
+    @Override
+
     public void updateStudent(Student student) throws Exception {
+
+        Student existingStudent = studentRepository.findByEmail(student.getEmail());
+
+        if (existingStudent != null && existingStudent.getStudentId() != student.getStudentId()) {
+
+            throw new StudentAlreadyExistsException(
+                    "Student with this email already exists, Email: " + student.getEmail());
+
+        }
 
         studentRepository.save(student);
 
     }
+
+    @Override
 
     public void deleteStudent(int studentId) throws Exception {
 
         studentRepository.deleteById(studentId);
 
     }
+
+    @Override
 
     public Student getStudentById(int studentId) throws Exception {
 
@@ -72,7 +98,5 @@ public class StudentServiceImplJpa implements StudentService {
     }
 
     public void modifyStudentDetails(StudentDTO studentDTO) throws Exception {
-
     }
-
 }
